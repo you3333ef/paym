@@ -38,6 +38,16 @@ const Services = () => {
       icon: FileText,
       href: selectedCountry ? `/invoices/create/${selectedCountry.code}` : "#",
       gradient: "linear-gradient(135deg, hsl(210 95% 50%), hsl(220 90% 60%))",
+      sublinks: [
+        {
+          title: "إنشاء فاتورة جديدة",
+          href: selectedCountry ? `/invoices/create/${selectedCountry.code}` : "#",
+        },
+        {
+          title: "عرض جميع الفواتير",
+          href: selectedCountry ? `/invoices/list/${selectedCountry.code}` : "#",
+        },
+      ],
     },
     {
       title: "Health Services",

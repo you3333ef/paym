@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,8 +6,8 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Country, COUNTRIES, getCountryByCode } from "@/lib/countries";
-import { ArrowRight, FileText, Plus, Trash2, Download, Send } from "lucide-react";
+import { Country, getCountryByCode } from "@/lib/countries";
+import { ArrowRight, FileText, Plus, Trash2, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface InvoiceItem {
@@ -18,38 +18,71 @@ interface InvoiceItem {
   total: number;
 }
 
-const CreateInvoice = () => {
-  const { country } = useParams();
+interface Invoice {
+  id: string;
+  invoiceNumber: string;
+  clientName: string;
+  clientEmail: string;
+  clientPhone: string;
+  clientAddress: string;
+  clientTaxNumber: string;
+  issueDate: string;
+  dueDate: string;
+  currency: string;
+  vatRate: number;
+  notes: string;
+  items: InvoiceItem[];
+  subtotal: number;
+  vatAmount: number;
+  total: number;
+  status: "draft" | "sent" | "paid" | "overdue";
+  createdAt: string;
+}
+
+const InvoiceEdit = () => {
+  const { country, id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
   const selectedCountry = getCountryByCode(country || "");
 
   const [invoiceData, setInvoiceData] = useState({
-    invoiceNumber: `INV-${Date.now()}`,
+    invoiceNumber: "",
     clientName: "",
     clientEmail: "",
     clientPhone: "",
     clientAddress: "",
     clientTaxNumber: "",
-    issueDate: new Date().toISOString().split('T')[0],
+    issueDate: "",
     dueDate: "",
-    currency: selectedCountry?.currency || "SAR",
+    currency: "SAR",
     vatRate: 15,
     notes: "",
-    logo: "",
-    seal: "",
-    signature: "",
   });
 
-  const [items, setItems] = useState<InvoiceItem[]>([
-    {
-      id: "1",
-      description: "",
-      quantity: 1,
-      unitPrice: 0,
-      total: 0,
-    },
-  ]);
+  const [items, setItems] = useState<InvoiceItem[]>([]);
+  const [invoice, setInvoice] = useState<Invoice | null>(null);
+
+  useEffect(() => {
+    const invoices = JSON.parse(sessionStorage.getItem("invoices") || "[]");
+    const foundInvoice = invoices.find((inv: Invoice) => inv.id === id);
+    if (foundInvoice) {
+      setInvoice(foundInvoice);
+      setInvoiceData({
+        invoiceNumber: foundInvoice.invoiceNumber,
+        clientName: foundInvoice.clientName,
+        clientEmail: foundInvoice.clientEmail,
+        clientPhone: foundInvoice.clientPhone,
+        clientAddress: foundInvoice.clientAddress,
+        clientTaxNumber: foundInvoice.clientTaxNumber,
+        issueDate: foundInvoice.issueDate,
+        dueDate: foundInvoice.dueDate,
+        currency: foundInvoice.currency,
+        vatRate: foundInvoice.vatRate,
+        notes: foundInvoice.notes,
+      });
+      setItems(foundInvoice.items);
+    }
+  }, [id]);
 
   const addItem = () => {
     const newItem: InvoiceItem = {
@@ -66,10 +99,10 @@ const CreateInvoice = () => {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const updateItem = (id: string, field: keyof InvoiceItem, value: string | number) => {
+  const updateItem = (itemId: string, field: keyof InvoiceItem, value: string | number) => {
     setItems(
       items.map((item) => {
-        if (item.id === id) {
+        if (item.id === itemId) {
           const updated = { ...item, [field]: value };
           if (field === "quantity" || field === "unitPrice") {
             updated.total = updated.quantity * updated.unitPrice;
@@ -88,36 +121,47 @@ const CreateInvoice = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Create invoice record
-    const invoice = {
-      id: invoiceData.invoiceNumber,
+    if (!invoice) return;
+
+    // Update invoice record
+    const updatedInvoice: Invoice = {
+      ...invoice,
       ...invoiceData,
       items,
       subtotal,
       vatAmount,
       total,
-      country: country,
-      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
 
-    // Store in sessionStorage for demo
-    const existingInvoices = JSON.parse(sessionStorage.getItem("invoices") || "[]");
-    existingInvoices.push(invoice);
-    sessionStorage.setItem("invoices", JSON.stringify(existingInvoices));
+    // Update in sessionStorage
+    const invoices = JSON.parse(sessionStorage.getItem("invoices") || "[]");
+    const updatedInvoices = invoices.map((inv: Invoice) =>
+      inv.id === id ? updatedInvoice : inv
+    );
+    sessionStorage.setItem("invoices", JSON.stringify(updatedInvoices));
 
     toast({
-      title: "تم إنشاء الفاتورة بنجاح!",
+      title: "تم تحديث الفاتورة بنجاح!",
       description: `رقم الفاتورة: ${invoiceData.invoiceNumber}`,
     });
 
-    // Navigate to invoice list
-    navigate(`/invoices/list/${country}`);
+    // Navigate back to view
+    navigate(`/invoices/${id}/view?country=${country}`);
   };
 
   if (!selectedCountry) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p>دولة غير صحيحة</p>
+      </div>
+    );
+  }
+
+  if (!invoice) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p>الفاتورة غير موجودة</p>
       </div>
     );
   }
@@ -129,11 +173,11 @@ const CreateInvoice = () => {
         <div className="mb-6">
           <Button
             variant="ghost"
-            onClick={() => navigate(`/services`)}
+            onClick={() => navigate(`/invoices/${id}/view?country=${country}`)}
             className="mb-4"
           >
             <ArrowRight className="w-4 h-4 ml-2" />
-            العودة للخدمات
+            العودة للفاتورة
           </Button>
 
           <div className="flex items-center gap-3 mb-4">
@@ -141,9 +185,9 @@ const CreateInvoice = () => {
               <FileText className="w-6 h-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">إنشاء فاتورة جديدة</h1>
+              <h1 className="text-2xl font-bold">تعديل الفاتورة</h1>
               <p className="text-sm text-muted-foreground">
-                {selectedCountry.nameAr}
+                {selectedCountry.nameAr} - {invoiceData.invoiceNumber}
               </p>
             </div>
           </div>
@@ -353,6 +397,27 @@ const CreateInvoice = () => {
                       max="100"
                     />
                   </div>
+                  <div>
+                    <Label htmlFor="currency">العملة</Label>
+                    <Select
+                      value={invoiceData.currency}
+                      onValueChange={(value) =>
+                        setInvoiceData({ ...invoiceData, currency: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="SAR">ريال سعودي (SAR)</SelectItem>
+                        <SelectItem value="AED">درهم إماراتي (AED)</SelectItem>
+                        <SelectItem value="KWD">دينار كويتي (KWD)</SelectItem>
+                        <SelectItem value="QAR">ريال قطري (QAR)</SelectItem>
+                        <SelectItem value="BHD">دينار بحريني (BHD)</SelectItem>
+                        <SelectItem value="OMR">ريال عماني (OMR)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </Card>
 
@@ -383,16 +448,10 @@ const CreateInvoice = () => {
               </Card>
 
               {/* Actions */}
-              <div className="space-y-3">
-                <Button type="submit" className="w-full" size="lg">
-                  <Send className="w-4 h-4 ml-2" />
-                  إنشاء الفاتورة
-                </Button>
-                <Button type="button" variant="outline" className="w-full" size="lg">
-                  <Download className="w-4 h-4 ml-2" />
-                  حفظ كمسودة
-                </Button>
-              </div>
+              <Button type="submit" className="w-full" size="lg">
+                <Save className="w-4 h-4 ml-2" />
+                حفظ التغييرات
+              </Button>
             </div>
           </div>
         </form>
@@ -401,4 +460,4 @@ const CreateInvoice = () => {
   );
 };
 
-export default CreateInvoice;
+export default InvoiceEdit;
