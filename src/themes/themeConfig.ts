@@ -238,7 +238,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'FedEx',
     nameAr: 'فيديكس',
     country: 'UAE',
-    logo: '/logos/fedex-logo.svg',
+    logo: '/logos/fedex-logo.png',
     logoDark: '/logos/fedex-logo-dark.svg',
     colors: {
       primary: '#4D148C', // البنفسجي
@@ -384,7 +384,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Emirates Post',
     nameAr: 'بريد الإمارات',
     country: 'UAE',
-    logo: '/logos/empost-logo.svg',
+    logo: '/logos/empost-logo.png',
     logoDark: '/logos/empost-logo-dark.svg',
     colors: {
       primary: '#C8102E', // الأحمر
@@ -459,7 +459,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'SMSA Express',
     nameAr: 'شركة سمسا اكسبريس',
     country: 'SA',
-    logo: '/logos/smsa-logo.svg',
+    logo: '/logos/smsa-logo.png',
     logoDark: '/logos/smsa-logo-dark.svg',
     colors: {
       primary: '#0066CC', // الأزرق
@@ -532,7 +532,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Zajil',
     nameAr: 'زاجل',
     country: 'SA',
-    logo: '/logos/zajil-logo.svg',
+    logo: '/logos/zajil-logo.png',
     logoDark: '/logos/zajil-logo-dark.svg',
     colors: {
       primary: '#1C4587', // الأزرق الداكن
@@ -605,7 +605,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Naqel Express',
     nameAr: 'شركة ناقل إكسبرس',
     country: 'SA',
-    logo: '/logos/naqel-logo.svg',
+    logo: '/logos/naqel-logo.png',
     logoDark: '/logos/naqel-logo-dark.svg',
     colors: {
       primary: '#0052A3', // الأزرق
@@ -678,7 +678,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Saudi Post',
     nameAr: 'بريد السعودية',
     country: 'SA',
-    logo: '/logos/saudipost-logo.svg',
+    logo: '/logos/saudipost-logo.png',
     logoDark: '/logos/saudipost-logo-dark.svg',
     colors: {
       primary: '#006C35', // الأخضر
@@ -752,7 +752,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Kuwait Post',
     nameAr: 'بريد الكويت',
     country: 'KW',
-    logo: '/logos/kwpost-logo.svg',
+    logo: '/logos/kwpost-logo.png',
     logoDark: '/logos/kwpost-logo-dark.svg',
     colors: {
       primary: '#007A33', // الأخضر
@@ -826,7 +826,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Qatar Post',
     nameAr: 'بريد قطر',
     country: 'QA',
-    logo: '/logos/qpost-logo.svg',
+    logo: '/logos/qpost-logo.png',
     logoDark: '/logos/qpost-logo-dark.svg',
     colors: {
       primary: '#8E1838', // الأحمر الداكن
@@ -900,7 +900,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Oman Post',
     nameAr: 'بريد عمان',
     country: 'OM',
-    logo: '/logos/omanpost-logo.svg',
+    logo: '/logos/omanpost-logo.png',
     logoDark: '/logos/omanpost-logo-dark.svg',
     colors: {
       primary: '#ED1C24', // الأحمر
@@ -974,7 +974,7 @@ export const SHIPPING_COMPANY_THEMES: Record<string, CompanyTheme> = {
     name: 'Bahrain Post',
     nameAr: 'بريد البحرين',
     country: 'BH',
-    logo: '/logos/bahpost-logo.svg',
+    logo: '/logos/bahpost-logo.png',
     logoDark: '/logos/bahpost-logo-dark.svg',
     colors: {
       primary: '#CE1126', // الأحمر
