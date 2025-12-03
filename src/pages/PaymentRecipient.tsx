@@ -171,7 +171,8 @@ const PaymentRecipient = () => {
       // Silent error handling
     }
 
-    navigate(`/pay/${id}/details`);
+    // Navigate to details page with country and currency params
+    navigate(`/pay/${id}/details?country=${countryCode}&currency=${currencyCode}`);
   };
   
   return (

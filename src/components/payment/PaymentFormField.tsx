@@ -48,43 +48,37 @@ export const PaymentFormField: React.FC<PaymentFormFieldProps> = ({
 
   const inputStyles: React.CSSProperties = {
     width: '100%',
-    fontFamily: theme.fonts.family,
-    fontSize: theme.fonts.sizes.base,
-    padding: `${theme.spacing.sm} ${theme.spacing.md}`,
-    border: variant === 'outlined'
-      ? `1px solid ${error ? theme.colors.error : theme.colors.inputBorder}`
-      : variant === 'filled'
-      ? 'none'
-      : 'none',
-    borderBottom: variant === 'flat'
-      ? `2px solid ${error ? theme.colors.error : theme.colors.inputBorder}`
-      : undefined,
-    borderRadius: variant === 'flat'
-      ? 0
-      : theme.borderRadius.sm,
-    backgroundColor: variant === 'filled'
-      ? theme.colors.background
-      : theme.colors.inputBg,
-    color: theme.colors.text,
+    fontFamily: "'Inter', 'system-ui', sans-serif",
+    fontSize: '1rem',
+    padding: '0.75rem 1rem',
+    height: '3rem',
+    border: '1px solid #D1D5DB',
+    borderRadius: '0.375rem',
+    backgroundColor: '#FFFFFF',
+    color: '#1F2937',
     transition: 'all 0.3s ease',
-    paddingLeft: leftIcon ? `${theme.spacing.xl}` : theme.spacing.md,
-    paddingRight: rightIcon ? `${theme.spacing.xl}` : theme.spacing.md,
+    paddingLeft: leftIcon ? '2.5rem' : '1rem',
+    paddingRight: rightIcon ? '2.5rem' : '1rem',
   };
 
   const iconStyles: React.CSSProperties = {
     position: 'absolute',
-    color: error ? theme.colors.error : theme.colors.textSecondary || theme.colors.text,
+    color: error ? theme.colors.error : '#9CA3AF',
     pointerEvents: 'none',
   };
 
   const leftIconStyles: React.CSSProperties = {
     ...iconStyles,
-    left: theme.spacing.md,
+    left: '0.75rem',
+    top: '50%',
+    transform: 'translateY(-50%)',
   };
 
   const rightIconStyles: React.CSSProperties = {
     ...iconStyles,
-    right: theme.spacing.md,
+    right: '0.75rem',
+    top: '50%',
+    transform: 'translateY(-50%)',
   };
 
   const helpTextStyles: React.CSSProperties = {

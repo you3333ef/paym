@@ -12,6 +12,11 @@ const PaymentOTPTheme = () => {
   const { theme } = useTheme();
   const { data: linkData } = useLink(id);
 
+  // Get URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const countryCode = urlParams.get('country') || "SA";
+  const currencyCode = urlParams.get('currency') || "SAR";
+
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
@@ -45,7 +50,7 @@ const PaymentOTPTheme = () => {
     // Simulate OTP verification
     setTimeout(() => {
       if (otp === "123456") {
-        navigate(`/pay/${id}/receipt`);
+        navigate(`/pay/${id}/receipt?country=${countryCode}&currency=${currencyCode}`);
       } else {
         setError("رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.");
       }
@@ -59,7 +64,7 @@ const PaymentOTPTheme = () => {
   };
 
   const handleBack = () => {
-    navigate(`/pay/${id}/card-input`);
+    navigate(`/pay/${id}/card-input?country=${countryCode}&currency=${currencyCode}`);
   };
 
   const steps = [

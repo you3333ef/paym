@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { Shield } from 'lucide-react';
 import { useTheme } from '@/themes/ThemeContext';
 
 interface PaymentCardProps {
@@ -23,40 +24,47 @@ export const PaymentCard: React.FC<PaymentCardProps> = ({
   if (!theme) return null;
 
   const cardStyles: React.CSSProperties = {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.lg,
-    padding: noPadding ? 0 : theme.spacing.xl,
-    boxShadow: theme.style.shadow === 'light'
-      ? '0 2px 8px rgba(0,0,0,0.08)'
-      : theme.style.shadow === 'medium'
-      ? '0 4px 16px rgba(0,0,0,0.12)'
-      : theme.style.shadow === 'strong'
-      ? '0 8px 24px rgba(0,0,0,0.16)'
-      : 'none',
-    border: `1px solid ${theme.colors.border}`,
+    backgroundColor: '#FFFFFF',
+    borderRadius: '0.75rem',
+    padding: noPadding ? 0 : '1.5rem',
+    boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
+    border: '1px solid #E5E7EB',
     transition: 'all 0.3s ease',
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '400px',
   };
 
   const headerStyles: React.CSSProperties = {
-    borderBottom: noPadding ? 'none' : `1px solid ${theme.colors.border}`,
-    paddingBottom: noPadding ? 0 : theme.spacing.md,
-    marginBottom: noPadding ? 0 : theme.spacing.lg,
+    borderBottom: noPadding ? 'none' : '1px solid #E5E7EB',
+    paddingBottom: noPadding ? 0 : '1rem',
+    marginBottom: noPadding ? 0 : '1.5rem',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
   };
 
   const titleStyles: React.CSSProperties = {
-    color: theme.colors.text,
-    fontSize: theme.fonts.sizes.lg,
-    fontWeight: theme.fonts.weights.semibold,
+    color: '#1F2937',
+    fontSize: '1.125rem',
+    fontWeight: '600',
     margin: 0,
   };
 
   const subtitleStyles: React.CSSProperties = {
-    color: theme.colors.textSecondary || theme.colors.text,
-    fontSize: theme.fonts.sizes.sm,
-    marginTop: theme.spacing.xs,
+    color: '#6B7280',
+    fontSize: '0.875rem',
+    marginTop: '0.25rem',
+  };
+
+  const footerStyles: React.CSSProperties = {
+    marginTop: 'auto',
+    paddingTop: '1.5rem',
+    borderTop: '1px solid #E5E7EB',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '0.5rem',
   };
 
   return (
@@ -90,6 +98,14 @@ export const PaymentCard: React.FC<PaymentCardProps> = ({
       {/* Card Body */}
       <div className="payment-card__body">
         {children}
+      </div>
+
+      {/* SSL Badge Footer */}
+      <div className="payment-card__footer" style={footerStyles}>
+        <Shield size={16} color="#10B981" />
+        <span style={{ color: '#10B981', fontSize: '0.875rem', fontWeight: '500' }}>
+          SSL 256-bit Secure
+        </span>
       </div>
     </div>
   );

