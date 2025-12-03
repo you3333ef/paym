@@ -132,3 +132,8 @@ export const getCurrency = (countryCode: string): string => {
   };
   return map[countryCode?.toUpperCase()] || 'SAR';
 };
+
+// Get theme configuration by courier ID
+export const getThemeById = (id: CourierID): ThemeConfig => {
+  return couriers[id];
+};
