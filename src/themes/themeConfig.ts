@@ -18,6 +18,9 @@ export interface ThemeConfig {
   direction: 'rtl' | 'ltr';
 }
 
+// Alias for backward compatibility
+export type CompanyTheme = ThemeConfig;
+
 export const couriers: Record<CourierID, ThemeConfig> = {
   fedex: {
     id: 'fedex',
