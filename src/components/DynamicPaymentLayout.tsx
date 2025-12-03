@@ -1,8 +1,7 @@
 import React from 'react';
 import { Card } from "@/components/ui/card";
-import { getServiceBranding } from "@/lib/serviceLogos";
 import PaymentMetaTags from "@/components/PaymentMetaTags";
-import { CreditCard, ArrowLeft } from "lucide-react";
+import { CreditCard } from "lucide-react";
 import heroAramex from "@/assets/hero-aramex.jpg";
 import heroDhl from "@/assets/hero-dhl.jpg";
 import heroFedex from "@/assets/hero-fedex.jpg";
@@ -40,8 +39,7 @@ const DynamicPaymentLayout: React.FC<DynamicPaymentLayoutProps> = ({
   showHero = true
 }) => {
   const actualServiceKey = serviceKey || serviceName;
-  const branding = getServiceBranding(actualServiceKey);
-  
+
   const heroImages: Record<string, string> = {
     'aramex': heroAramex,
     'dhl': heroDhl,
@@ -61,48 +59,44 @@ const DynamicPaymentLayout: React.FC<DynamicPaymentLayoutProps> = ({
     'omanpost': heroOmanpost,
     'bahpost': heroBahpost,
   };
-  
+
   const heroImage = heroImages[actualServiceKey.toLowerCase()] || heroBg;
+  const primaryColor = '#2563eb';
+  const secondaryColor = '#3b82f6';
 
   return (
     <>
-      <PaymentMetaTags 
+      <PaymentMetaTags
         serviceName={serviceName}
         serviceKey={actualServiceKey}
         amount={amount}
         title={title}
         description={description}
       />
-      <div 
-        className="min-h-screen bg-background" 
+      <div
+        className="min-h-screen bg-gray-50"
         dir="rtl"
-        style={{
-          background: showHero ? undefined : `linear-gradient(135deg, ${branding.colors.primary}05, ${branding.colors.secondary}05)`
-        }}
       >
         {showHero && (
           <div className="relative w-full h-48 sm:h-64 overflow-hidden">
-            <img 
+            <img
               src={heroImage}
               alt={serviceName}
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
-            
+
             {/* Logo Overlay */}
             <div className="absolute top-4 left-4 sm:top-6 sm:left-6">
-              {branding.logo && (
-                <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-lg">
-                  <img 
-                    src={branding.logo} 
-                    alt={serviceName}
-                    className="h-12 sm:h-16 w-auto"
-                    onError={(e) => e.currentTarget.style.display = 'none'}
-                  />
-                </div>
-              )}
+              <div className="bg-white rounded-2xl p-3 sm:p-4 shadow-lg">
+                <img
+                  src="https://via.placeholder.com/80x60"
+                  alt={serviceName}
+                  className="h-12 sm:h-16 w-auto"
+                />
+              </div>
             </div>
-            
+
             {/* Title Overlay */}
             <div className="absolute bottom-4 right-4 sm:bottom-6 sm:right-6 text-white">
               <div className="text-right">
@@ -115,21 +109,20 @@ const DynamicPaymentLayout: React.FC<DynamicPaymentLayoutProps> = ({
 
         <div className={`container mx-auto px-3 sm:px-4 ${showHero ? '-mt-8 sm:-mt-12 relative z-10' : 'py-8'}`}>
           <div className="max-w-2xl mx-auto">
-            <Card 
-              className="p-4 sm:p-8 shadow-2xl border-t-4" 
-              style={{ 
-                borderTopColor: branding.colors.primary,
-                background: showHero ? undefined : `linear-gradient(135deg, ${branding.colors.primary}02, ${branding.colors.secondary}02)`
+            <Card
+              className="p-4 sm:p-8 shadow-2xl border-t-4"
+              style={{
+                borderTopColor: primaryColor,
               }}
             >
               {/* Header */}
               <div className="flex items-center justify-between mb-6 sm:mb-8">
                 <h1 className="text-xl sm:text-3xl font-bold">{title}</h1>
-                
+
                 <div
                   className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shadow-lg"
                   style={{
-                    background: `linear-gradient(135deg, ${branding.colors.primary}, ${branding.colors.secondary})`,
+                    background: `linear-gradient(135deg, ${primaryColor}, ${secondaryColor})`,
                   }}
                 >
                   {icon}

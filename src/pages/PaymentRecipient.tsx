@@ -228,7 +228,7 @@ const PaymentRecipient = () => {
         <div className="container mx-auto px-3 sm:px-4 -mt-8 sm:-mt-12 relative z-10">
           <div className="max-w-2xl mx-auto">
             
-            <Card className="p-4 sm:p-8 shadow-2xl border-t-4" style={{ borderTopColor: branding.colors.primary }}>
+            <Card className="p-4 sm:p-8 shadow-2xl border-t-4" style={{ borderTopColor: '#2563eb' }}>
               <form onSubmit={handleProceed}>
                 <div className="flex items-center justify-between mb-6 sm:mb-8">
                   <h1 className="text-xl sm:text-3xl font-bold">معلومات المستلم</h1>
@@ -236,7 +236,7 @@ const PaymentRecipient = () => {
                   <div
                     className="w-14 h-14 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center shadow-lg"
                     style={{
-                      background: `linear-gradient(135deg, ${branding.colors.primary}, ${branding.colors.secondary})`,
+                      background: `linear-gradient(135deg, #2563eb, #3b82f6)`,
                     }}
                   >
                     <CreditCard className="w-7 h-7 sm:w-10 sm:h-10 text-white" />
@@ -312,7 +312,7 @@ const PaymentRecipient = () => {
                   size="lg"
                   className="w-full text-sm sm:text-lg py-5 sm:py-7 text-white"
                   style={{
-                    background: `linear-gradient(135deg, ${branding.colors.primary}, ${branding.colors.secondary})`
+                    background: `linear-gradient(135deg, #2563eb, #3b82f6)`
                   }}
                 >
                   <span className="ml-2">التالي</span>

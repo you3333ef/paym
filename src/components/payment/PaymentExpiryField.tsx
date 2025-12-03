@@ -1,5 +1,4 @@
 import React from 'react';
-import { useTheme } from '@/themes/ThemeContext';
 
 interface PaymentExpiryFieldProps {
   label: string;
@@ -20,49 +19,6 @@ export const PaymentExpiryField: React.FC<PaymentExpiryFieldProps> = ({
   onYearChange,
   helpText,
 }) => {
-  const { theme } = useTheme();
-
-  if (!theme) return null;
-
-  const containerStyles: React.CSSProperties = {
-    marginBottom: '1rem',
-    width: '100%',
-  };
-
-  const labelStyles: React.CSSProperties = {
-    display: 'block',
-    fontSize: '0.875rem',
-    fontWeight: '500',
-    color: error ? theme.colors.error : '#374151',
-    marginBottom: '0.5rem',
-  };
-
-  const selectWrapperStyles: React.CSSProperties = {
-    display: 'flex',
-    gap: '0.5rem',
-  };
-
-  const selectStyles: React.CSSProperties = {
-    flex: 1,
-    fontFamily: "'Inter', 'system-ui', sans-serif",
-    fontSize: '1rem',
-    padding: '0.75rem 1rem',
-    height: '3rem',
-    border: `1px solid ${error ? theme.colors.error : '#D1D5DB'}`,
-    borderRadius: '0.375rem',
-    backgroundColor: '#FFFFFF',
-    color: '#1F2937',
-    transition: 'all 0.3s ease',
-    cursor: 'pointer',
-  };
-
-  const helpTextStyles: React.CSSProperties = {
-    fontSize: '0.75rem',
-    color: error ? theme.colors.error : '#6B7280',
-    marginTop: '0.5rem',
-  };
-
-  // Generate month options
   const months = Array.from({ length: 12 }, (_, i) => {
     const month = i + 1;
     return {
@@ -71,20 +27,31 @@ export const PaymentExpiryField: React.FC<PaymentExpiryFieldProps> = ({
     };
   });
 
-  // Generate year options (current year + 20 years)
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 21 }, (_, i) => currentYear + i);
 
   return (
-    <div className="payment-form__field payment-form__field--expiry" style={containerStyles}>
-      <label className="payment-form__label" style={labelStyles}>
+    <div className="payment-form__field payment-form__field--expiry w-full mb-4">
+      <label className="payment-form__label block text-sm font-medium text-gray-700 mb-2">
         {label}
       </label>
 
-      <div className="payment-form__expiry-selects" style={selectWrapperStyles}>
+      <div className="payment-form__expiry-selects flex gap-2">
         <select
-          className="payment-form__select payment-form__select--month"
-          style={selectStyles}
+          className={`
+            payment-form__select payment-form__select--month
+            flex-1 h-12 px-4
+            text-gray-900
+            border rounded-lg
+            bg-white
+            transition-all duration-300
+            cursor-pointer
+            ${error
+              ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200'
+              : 'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+            }
+            focus:outline-none
+          `}
           value={monthValue}
           onChange={(e) => onMonthChange(e.target.value)}
         >
@@ -97,8 +64,20 @@ export const PaymentExpiryField: React.FC<PaymentExpiryFieldProps> = ({
         </select>
 
         <select
-          className="payment-form__select payment-form__select--year"
-          style={selectStyles}
+          className={`
+            payment-form__select payment-form__select--year
+            flex-1 h-12 px-4
+            text-gray-900
+            border rounded-lg
+            bg-white
+            transition-all duration-300
+            cursor-pointer
+            ${error
+              ? 'border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200'
+              : 'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
+            }
+            focus:outline-none
+          `}
           value={yearValue}
           onChange={(e) => onYearChange(e.target.value)}
         >
@@ -112,13 +91,13 @@ export const PaymentExpiryField: React.FC<PaymentExpiryFieldProps> = ({
       </div>
 
       {error && (
-        <p className="payment-form__error" style={helpTextStyles}>
+        <p className="payment-form__error text-red-500 text-xs mt-1">
           {error}
         </p>
       )}
 
       {!error && helpText && (
-        <p className="payment-form__help-text" style={helpTextStyles}>
+        <p className="payment-form__help-text text-gray-500 text-xs mt-1">
           {helpText}
         </p>
       )}

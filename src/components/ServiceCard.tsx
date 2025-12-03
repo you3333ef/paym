@@ -27,7 +27,7 @@ const ServiceCard = ({
 }: ServiceCardProps) => {
   if (sublinks && sublinks.length > 0) {
     return (
-      <div className="group relative overflow-hidden rounded-xl bg-card border border-border hover:border-primary transition-all duration-300 hover:shadow-elevated h-full">
+      <div className="group relative overflow-hidden rounded-xl bg-white border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-lg h-full">
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
           style={{ background: gradient }}
@@ -41,18 +41,18 @@ const ServiceCard = ({
             <Icon className="w-5 h-5 text-white" />
           </div>
 
-          <h3 className="text-base font-bold mb-1 group-hover:text-primary transition-colors">
+          <h3 className="text-base font-bold mb-1 group-hover:text-blue-600 transition-colors">
             {titleAr}
           </h3>
-          <p className="text-xs text-muted-foreground mb-1">{title}</p>
-          <p className="text-xs text-muted-foreground mb-3">{description}</p>
+          <p className="text-xs text-gray-500 mb-1">{title}</p>
+          <p className="text-xs text-gray-500 mb-3">{description}</p>
 
           <div className="space-y-2">
             {sublinks.map((link, index) => (
               <Link
                 key={index}
                 to={link.href}
-                className="block text-xs text-primary hover:underline"
+                className="block text-xs text-blue-600 hover:underline"
               >
                 • {link.title}
               </Link>
@@ -65,7 +65,7 @@ const ServiceCard = ({
 
   return (
     <Link to={href}>
-      <div className="group relative overflow-hidden rounded-xl bg-card border border-border hover:border-primary transition-all duration-300 hover:shadow-elevated cursor-pointer h-full">
+      <div className="group relative overflow-hidden rounded-xl bg-white border border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-lg cursor-pointer h-full">
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-300"
           style={{ background: gradient }}
@@ -79,11 +79,11 @@ const ServiceCard = ({
             <Icon className="w-5 h-5 text-white" />
           </div>
 
-          <h3 className="text-base font-bold mb-1 group-hover:text-primary transition-colors">
+          <h3 className="text-base font-bold mb-1 group-hover:text-blue-600 transition-colors">
             {titleAr}
           </h3>
-          <p className="text-xs text-muted-foreground mb-1">{title}</p>
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <p className="text-xs text-gray-500 mb-1">{title}</p>
+          <p className="text-xs text-gray-500">{description}</p>
         </div>
       </div>
     </Link>

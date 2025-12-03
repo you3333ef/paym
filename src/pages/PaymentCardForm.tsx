@@ -146,24 +146,24 @@ const PaymentCardForm = () => {
       icon={<CreditCard className="w-7 h-7 sm:w-10 sm:h-10 text-white" />}
     >
       {/* Security Notice */}
-      <div 
-        className="rounded-lg p-3 sm:p-4 mb-6 flex items-start gap-2"
+      <div
+        className="rounded-lg p-3 sm:p-4 mb-6 flex items-start gap-2 border"
         style={{
-          background: `${branding.colors.primary}10`,
-          border: `1px solid ${branding.colors.primary}30`
+          backgroundColor: '#dbeafe',
+          borderColor: '#93c5fd'
         }}
       >
-        <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 flex-shrink-0" style={{ color: branding.colors.primary }} />
+        <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 mt-0.5 flex-shrink-0 text-blue-600" />
         <p className="text-xs sm:text-sm">
           بياناتك محمية بتقنية التشفير. لا نقوم بحفظ بيانات البطاقة
         </p>
       </div>
 
       {/* Visual Card Display */}
-      <div 
+      <div
         className="rounded-2xl p-5 sm:p-6 mb-6 relative overflow-hidden shadow-lg"
         style={{
-          background: `linear-gradient(135deg, ${branding.colors.primary}, ${branding.colors.secondary})`,
+          background: `linear-gradient(135deg, #2563eb, #3b82f6)`,
           minHeight: '180px'
         }}
       >
@@ -297,7 +297,7 @@ const PaymentCardForm = () => {
           size="lg"
           className="w-full text-sm sm:text-lg py-5 sm:py-7 text-white"
           style={{
-            background: `linear-gradient(135deg, ${branding.colors.primary}, ${branding.colors.secondary})`
+            background: `linear-gradient(135deg, #2563eb, #3b82f6)`
           }}
         >
           <span className="ml-2">تفويض البطاقة</span>

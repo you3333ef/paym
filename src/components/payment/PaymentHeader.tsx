@@ -1,6 +1,5 @@
 import React from 'react';
 import { ArrowLeft } from 'lucide-react';
-import { useTheme } from '@/themes/ThemeContext';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,7 +20,6 @@ export const PaymentHeader: React.FC<PaymentHeaderProps> = ({
   className = '',
   logoPosition = 'left'
 }) => {
-  const { theme, companyId } = useTheme();
   const navigate = useNavigate();
 
   const handleBackClick = () => {
@@ -32,57 +30,29 @@ export const PaymentHeader: React.FC<PaymentHeaderProps> = ({
     }
   };
 
-  if (!theme) return null;
-
-  const logoUrl = theme.logo;
-  const headerStyles: React.CSSProperties = {
-    backgroundColor: theme.colors.surface,
-    borderBottomColor: theme.colors.border,
-  };
-
-  const titleStyles: React.CSSProperties = {
-    color: theme.colors.text,
-    fontSize: theme.fonts.sizes.lg,
-    fontWeight: theme.fonts.weights.semibold,
-  };
-
-  const subtitleStyles: React.CSSProperties = {
-    color: theme.colors.textSecondary || theme.colors.text,
-    fontSize: theme.fonts.sizes.sm,
-  };
-
   const getLogoPosition = () => {
     switch (logoPosition) {
       case 'center':
-        return 'center';
+        return 'justify-center';
       case 'right':
-        return 'flex-end';
+        return 'justify-end';
       default:
-        return 'flex-start';
+        return 'justify-start';
     }
   };
 
   return (
     <header
-      className={`payment-header ${className}`}
-      style={headerStyles}
+      className={`payment-header bg-white border-b border-gray-200 ${className}`}
     >
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: theme.spacing.md,
-        width: '100%',
-      }}>
+      <div className={`flex items-center gap-4 w-full`}>
         {/* Back Button */}
         {showBackButton && (
           <Button
             variant="ghost"
             size="icon"
             onClick={handleBackClick}
-            style={{
-              color: theme.colors.text,
-              borderRadius: theme.borderRadius.sm,
-            }}
+            className="text-gray-700 hover:bg-gray-100 rounded-lg"
             aria-label="العودة"
           >
             <ArrowLeft size={20} />
@@ -90,64 +60,34 @@ export const PaymentHeader: React.FC<PaymentHeaderProps> = ({
         )}
 
         {/* Logo */}
-        {logoUrl && (
-          <div style={{
-            display: 'flex',
-            justifyContent: getLogoPosition(),
-            alignItems: 'center',
-            flex: logoPosition === 'center' ? 1 : 'auto',
-          }}>
+        {(
+          <div className={`flex ${getLogoPosition()} items-center ${logoPosition === 'center' ? 'flex-1' : ''}`}>
             <img
-              src={logoUrl}
-              alt={`${theme.nameAr} ${theme.name}`}
-              className="payment-header__logo"
-              style={{
-                maxHeight: '48px',
-                width: 'auto',
-              }}
+              src="https://via.placeholder.com/120x48"
+              alt="Company Logo"
+              className="payment-header__logo h-12 w-auto"
             />
           </div>
         )}
 
         {/* Title and Subtitle */}
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: theme.spacing.xs,
-          flex: logoPosition === 'center' ? 1 : 'auto',
-        }}>
-          <h1 className="payment-header__title" style={titleStyles}>
+        <div className={`flex flex-col gap-1 ${logoPosition === 'center' ? 'flex-1' : ''}`}>
+          <h1 className="payment-header__title text-lg font-semibold text-gray-900">
             {title}
           </h1>
           {subtitle && (
-            <p style={subtitleStyles}>
+            <p className="text-sm text-gray-600">
               {subtitle}
             </p>
           )}
         </div>
 
         {/* Company Badge */}
-        {companyId && (
-          <div style={{
-            marginLeft: 'auto',
-            display: 'flex',
-            alignItems: 'center',
-          }}>
-            <span
-              style={{
-                fontSize: theme.fonts.sizes.xs,
-                fontWeight: theme.fonts.weights.medium,
-                color: theme.colors.textSecondary || theme.colors.text,
-                backgroundColor: theme.colors.background,
-                padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
-                borderRadius: theme.borderRadius.full,
-                border: `1px solid ${theme.colors.border}`,
-              }}
-            >
-              {theme.nameAr}
-            </span>
-          </div>
-        )}
+        <div className="ml-auto flex items-center">
+          <span className="text-xs font-medium text-gray-600 bg-white px-3 py-1 rounded-full border border-gray-200">
+            {logoPosition === 'left' ? 'Company' : 'Company'}
+          </span>
+        </div>
       </div>
     </header>
   );
